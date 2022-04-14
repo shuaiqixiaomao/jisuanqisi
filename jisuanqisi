@@ -1,0 +1,133 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int fuhao(char c)
+{
+	if(c=='+'||c=='-'||c=='*'||c=='/')
+	{
+		return 1;
+	}
+	else 
+	{
+		return 0;
+	}
+}
+void yidong(char *h)
+{
+	while(*h='\0')
+	{
+		*h=*(h+1);
+		++h;
+	}
+}
+
+void huan(float *h,float *over)
+{
+	while(h!=over)
+	{
+		*h=*(h+1);
+	    h++;
+	}
+
+}
+
+int main()
+{
+	char suan[]="1-2.5*4+10.2/5.1";
+	char caoshu[100];
+	scanf("%s",caoshu);																																																							
+	float shuzi3[100];
+	char open[100]={'\0'};
+	
+	int shu=0;
+	for(int i=0;i<100;i++)
+	{
+		if(fuhao(caoshu[i]))
+		{
+			open[shu]=caoshu[i];
+			shu++;
+		}
+	}
+	
+
+	int shu2=0;
+	for(i=0;i<100;i++)
+	{
+		char shuzi[100]={'\0'};
+		int shu3=0;
+		while(!fuhao(caoshu[i]))
+		{
+			shuzi[shu3]=caoshu[i];
+			i++;
+			shu3++;
+		}
+
+		float happy=atof(shuzi);
+		shuzi3[shu2++]=happy;
+	}
+	
+	char *x=open;
+	float *pp=shuzi3;
+    
+	while(*x!='\0')
+	{
+		if(*x=='*')
+		{
+			float left=*pp;
+			float right=*(pp+1);
+			float result=left*right;
+			*pp=result;
+            yidong(x);
+			huan(pp+1,&shuzi3[shu--]);
+		}
+		else if(*x=='/')
+		{
+			float left=*pp;
+			float right=*(pp+1);
+			float result=left/right;
+			*pp=result;
+            yidong(x);
+			huan(pp+1,&shuzi3[shu--]);
+
+		}
+		else
+		{
+			x++;
+			pp++;
+		}
+
+	}
+	puts(open);
+	x=open;
+	pp=shuzi3;
+	while(*x!='\0')
+	{
+		if(*x=='+')
+		{
+			float left=*pp;
+			float right=*(pp+1);
+			float result=left+right;
+			*pp=result;
+			yidong(x);
+			huan(pp+1,&shuzi3[shu2--]);
+		}
+		else if(*x=='-')
+		{
+			float left=*pp;
+			float right=*(pp+1);
+			float result=left-right;
+			*pp=result;
+			yidong(x);
+			huan(pp+1,&shuzi3[shu2--]);
+		}
+	}
+    printf("%0.2f\n",shuzi3[0]);
+ 	
+	
+
+	
+	
+	
+	return 0;
+}
